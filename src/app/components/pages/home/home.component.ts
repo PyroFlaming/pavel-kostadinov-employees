@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     sumOfTime: number;
   } = null;
 
-  constructor(private activityService: ActivityService) { }
+  constructor(private _activityService: ActivityService) { }
 
   get empWTogetherOnProjects(): any[] {
     return this._empWTogetherOnProjects
@@ -40,17 +40,23 @@ export class HomeComponent implements OnInit {
   }
 
   public handlerReadData(text: string) {
-    const activities = this.activityService.extractActivitiesFromString(text);
+    console.log(text);
+    this.page = 1;
+    this.collectionSize = 0;
+    this.twoEmpWTogetherMostTime = null;
+    this._empWTogetherOnProjects = [];
+
+    const activities = this._activityService.extractActivitiesFromString(text);
 
     if (activities.length) {
-      this._empWTogetherOnProjects = this.activityService.findEmployersWTogetherOnProject(activities);
+      this._empWTogetherOnProjects = this._activityService.findEmployersWTogetherOnProject(activities);
 
       this.page = 1;
       this.collectionSize = this._empWTogetherOnProjects.length;
 
-      this.twoEmpWTogetherMostTime = this.activityService.getTwoEmpWTogetherMostTime(activities);
+      this.twoEmpWTogetherMostTime = this._activityService.getTwoEmpWTogetherMostTime(activities);
 
-      this.activityService.addMultipleActivities(activities);
+      this._activityService.addMultipleActivities(activities);
 
     }
   }

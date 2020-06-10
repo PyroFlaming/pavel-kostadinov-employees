@@ -19,7 +19,7 @@ export class ActivityService {
     ]);
   }
 
-  extractActivitiesFromString(activitiesString: string): EmployeeActivity[] {
+  public extractActivitiesFromString(activitiesString: string): EmployeeActivity[] {
     const activitiesArr: EmployeeActivity[] = activitiesString.split('\n').map(row => {
       const activityData = row.split(', ');
 
@@ -34,7 +34,7 @@ export class ActivityService {
     return activitiesArr;
   }
 
-  getTwoEmpWTogetherMostTime(activities: EmployeeActivity[]): { empA: string, empB: string, sumOfTime: number } | null {
+  public getTwoEmpWTogetherMostTime(activities: EmployeeActivity[]): { empA: string, empB: string, sumOfTime: number } | null {
     const workedTogetherOnProject = this.findEmployersWTogetherOnProject(activities);
 
     if (!workedTogetherOnProject.length) {
@@ -42,8 +42,8 @@ export class ActivityService {
     }
 
     let awtCopy = workedTogetherOnProject.slice();
-
     const allCp = [];
+
     for (let index = 0; index < workedTogetherOnProject.length; index++) {
       const couple = workedTogetherOnProject[index];
 
@@ -53,9 +53,7 @@ export class ActivityService {
         });
 
       if (coupleWorkTogetherOnProjects.length) {
-
         allCp.push(coupleWorkTogetherOnProjects);
-
         awtCopy = awtCopy.filter(el => coupleWorkTogetherOnProjects.indexOf(el) === -1);
       }
     }
@@ -91,7 +89,7 @@ export class ActivityService {
         if (
           currentActivity.projectId === activity.projectId && currentActivity.empId !== activity.empId
         ) {
-          const workedTimeTogether = this.calculateActivitiesMatchedTime(currentActivity, activity);
+          const workedTimeTogether = this._calculateActivitiesMatchedTime(currentActivity, activity);
 
           if (workedTimeTogether) {
             const exCouple =
@@ -120,7 +118,7 @@ export class ActivityService {
     return couples;
   }
 
-  private calculateActivitiesMatchedTime(activityA: EmployeeActivity, activityB: EmployeeActivity) {
+  private _calculateActivitiesMatchedTime(activityA: EmployeeActivity, activityB: EmployeeActivity) {
     const currentTime = Math.round(new Date().getTime() / 1000);
 
     const startWTogetherDate =

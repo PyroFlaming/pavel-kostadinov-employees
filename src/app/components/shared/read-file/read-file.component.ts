@@ -10,7 +10,7 @@ export class ReadFileComponent implements OnInit {
   public readData: EventEmitter<string> = new EventEmitter();
 
   @ViewChild('fileInput')
-  fileInput;
+  public fileInput;
 
   constructor() { }
 
@@ -29,6 +29,8 @@ export class ReadFileComponent implements OnInit {
         fileReader.onload = (e) => {
           if (fileReader.result) {
             this.readData.emit(fileReader.result.toString());
+          } else {
+            this.readData.emit('');
           }
         }
 
