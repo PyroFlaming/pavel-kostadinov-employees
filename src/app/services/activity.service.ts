@@ -1,7 +1,9 @@
+import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { EmployeeActivity } from '../../interfaces/employee-activity.interface';
 import { BehaviorSubject } from 'rxjs';
 import { WTogetherEmployers } from '../../interfaces/w-together-employers.interface';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class ActivityService {
   public employersActivity: BehaviorSubject<Array<EmployeeActivity>>
     = new BehaviorSubject([]);
 
-  constructor() { }
+  constructor(private _datePipe: DatePipe) { }
 
   public addMultipleActivities(arrActivities: EmployeeActivity[]) {
     this.employersActivity.next([
@@ -20,15 +22,29 @@ export class ActivityService {
   }
 
   public extractActivitiesFromString(activitiesString: string): EmployeeActivity[] {
-    const activitiesArr: EmployeeActivity[] = activitiesString.split('\n').map(row => {
-      const activityData = row.split(', ');
+    const activitiesArr: EmployeeActivity[] = [];
+    activitiesString.split('\n').forEach((row, index) => {
+      const activityData = row.split(', ').map(el => el.replace(/\s/g, ""));
 
-      return {
-        projectId: activityData[1],
-        empId: activityData[0],
-        startActivity: new Date(activityData[2]),
-        endActivity: activityData[3] === 'NULL' ? null : new Date(activityData[3])
-      };
+      try {
+        const startDate = this._datePipe.transform(activityData[2], 'yyyy-MM-dd');
+        let endDate;
+        if (activityData[3] === 'NULL') {
+          endDate = null;
+        } else {
+          endDate = this._datePipe.transform(activityData[3], 'yyyy-MM-dd');
+        }
+
+        activitiesArr.push({
+          projectId: activityData[1],
+          empId: activityData[0],
+          startActivity: new Date(startDate),
+          endActivity: activityData[3] === 'NULL' ? null : new Date(endDate)
+        });
+
+      } catch (error) {
+        console.error(`Row: ${index + 1}  cant be read please fix the date format.`);
+      }
     });
 
     return activitiesArr;
