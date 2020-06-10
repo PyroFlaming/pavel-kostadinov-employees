@@ -44,3 +44,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# lock files ignore
+.package-lock.json
+yarn.lock

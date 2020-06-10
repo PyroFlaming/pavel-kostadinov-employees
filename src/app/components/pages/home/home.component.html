@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 pt-5">
+      <app-read-file (readData)="handlerReadData($event)"></app-read-file>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 pt-5">
+      The two employers worked most time together: {{ twoEmpWTogetherMostTime?.empA }}
+      {{ twoEmpWTogetherMostTime?.empB }} {{ twoEmpWTogetherMostTime?.sumOfTime / 86400000 }}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 pt-5">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" sortable="EmpId">Employee ID #1</th>
+            <th scope="col" sortable="ProjectID">Employee ID #2</th>
+            <th scope="col" sortable="startActivity">Project ID</th>
+            <th scope="col" sortable="endActivity">Days worked</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let el of empWTogetherOnProjects; index as i">
+            <th scope="row">{{ i }}</th>
+            <td>
+              {{ el.empA }}
+            </td>
+            <td>
+              {{ el.empB }}
+            </td>
+            <td>
+              {{ el.projectId }}
+            </td>
+            <td>{{ el.wTimeTogether }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+          <option [ngValue]="50">50 items per page</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+</div>
