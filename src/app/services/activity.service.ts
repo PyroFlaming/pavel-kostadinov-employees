@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EmployeeActivity } from '../../interfaces/employee-activity.interface';
 import { BehaviorSubject } from 'rxjs';
-import * as moment from 'moment';
 import { WTogetherEmployers } from '../../interfaces/w-together-employers.interface';
 
 @Injectable({
