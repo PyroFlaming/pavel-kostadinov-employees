@@ -46,5 +46,5 @@ testem.log
 Thumbs.db
 
 # lock files ignore
-.package-lock.json
+package-lock.json
 yarn.lock
