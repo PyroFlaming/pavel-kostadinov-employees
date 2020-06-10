@@ -32,6 +32,7 @@ export class ReadFileComponent implements OnInit {
           } else {
             this.readData.emit('');
           }
+          this.fileInput.nativeElement.value = '';
         }
 
         fileReader.readAsText(file);
