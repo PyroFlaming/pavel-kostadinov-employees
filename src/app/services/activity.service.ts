@@ -24,7 +24,7 @@ export class ActivityService {
   public extractActivitiesFromString(activitiesString: string): EmployeeActivity[] {
     const activitiesArr: EmployeeActivity[] = [];
     activitiesString.split('\n').forEach((row, index) => {
-      const activityData = row.split(', ').map(el => el.replace(/\s/g, ""));
+      const activityData = row.split(', ').map(el => el.trim());
 
       try {
         const startDate = this._datePipe.transform(activityData[2], 'yyyy-MM-dd');
